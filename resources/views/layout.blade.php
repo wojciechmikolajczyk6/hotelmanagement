@@ -10,7 +10,8 @@
     <meta name="author" content="">
 
     <title>SB Admin 2 - Blank</title>
-    @if(!Session::has('adminData') and !Session::has('employeeData'))
+
+    @if(!Session::has('adminData'))
         <script type="text/javascript">
             window.location.href = '/admin/login';
         </script>
@@ -37,11 +38,11 @@
     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
         <!-- Sidebar - Brand -->
-        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/admin">
+        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
             <div class="sidebar-brand-icon rotate-n-15">
                 <i class="fas fa-laugh-wink"></i>
             </div>
-            <div class="sidebar-brand-text mx-3">Admin <sup>2</sup></div>
+            <div class="sidebar-brand-text mx-3">SB Admin <sup>2</sup></div>
         </a>
 
         <!-- Divider -->
@@ -115,7 +116,7 @@
             </div>
         </li>
 
-        @if(Session::has('adminData'))
+
         <!-- Nav Item - Department -->
         <li class="nav-item">
             <a class="nav-link @if(!request()->is('admin/department*')) collapsed @endif" href="#"
@@ -149,36 +150,15 @@
                 </div>
             </div>
         </li>
-        @endif
-        <!-- Nav Item - Services -->
-        <li class="nav-item">
-            <a class="nav-link @if(!request()->is('admin/services*')) collapsed @endif" href="#"
-               data-toggle="collapse" data-target="#ServicesMaster"
-               aria-expanded="true" aria-controls="collapseTwo">
-                <i class="fas fa-fw fa-users"></i>
-                <span>Usługi</span>
-            </a>
-            <div id="ServicesMaster" class="collapse @if(request()->is('admin/services*')) show @endif"
-                 aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                <div class="bg-white py-2 collapse-inner rounded">
-                    <a class="collapse-item" href="/admin/services/create">Dodaj nową usługę</a>
-                    <a class="collapse-item" href="/admin/services">Wszystkie usługi</a>
-                </div>
-            </div>
-        </li>
 
-
-        <!-- Nav Item - Rezerwacje -->
+        <!-- Nav Item - Dashboard -->
         <li class="nav-item">
-            <a class="nav-link" href="{{'/admin/booking'}}">
+            <a class="nav-link" href="{{'/admin/booking/create'}}">
                 <i class="fas fa-fw fa-hotel"></i>
-                <span>Rezerwacje</span></a>
+                <span>Booking</span></a>
         </li>
 
-
-
-        <!-- Nav Item - Logout
-         -->
+        <!-- Nav Item - Dashboard -->
         <li class="nav-item">
             <a class="nav-link" href="{{'/admin/logout'}}">
                 <i class="fas fa-fw fa-sign-out-alt"></i>

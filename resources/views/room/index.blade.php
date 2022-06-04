@@ -4,8 +4,6 @@
 <!-- Begin Page Content -->
 <div class="container-fluid">
 
-    <!-- Page Heading -->
-    <h1 class="h3 mb-4 text-gray-800">Blank Page</h1>
     @if(Session::has('success'))
         <p class="text-primary text-center">{{session('success')}}</p>
 @endif
@@ -46,7 +44,7 @@
                             @foreach ($data as $room)
                         <tr>
                             <td>{{$room->id}}</td>
-                            <td>{{$room->RoomType->title}}</td>
+                            <td>{{$room->roomtype->id}}</td>
                             <td>{{$room->title}}</td>
                             <td>
                                 <a href="{{'/admin/room/'.$room->id}}" class="btn btn-info btn-sm"><i class="fa fa-eye"></i></a>
