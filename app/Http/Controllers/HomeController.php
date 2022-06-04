@@ -21,4 +21,12 @@ class HomeController extends Controller
         $service=Service::find($id);
         return view('serviceShow', ['service'=>$service]);
     }
+    public function galery(){
+        $roomTypes=RoomType::all();
+        return view('galery', ['roomtypes'=>$roomTypes]);
+    }
+    public function services(){
+        $services=Service::all();
+        return view('services', ['services' =>$services]);
+    }
 }

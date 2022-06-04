@@ -11,7 +11,8 @@
 
     <title>SB Admin 2 - Blank</title>
 
-    @if(!Session::has('adminData'))
+
+    @if(!Session::has('adminData') and !Session::has('employeeData'))
         <script type="text/javascript">
             window.location.href = '/admin/login';
         </script>
@@ -118,6 +119,7 @@
 
 
         <!-- Nav Item - Department -->
+        @if(Session::has('adminData'))
         <li class="nav-item">
             <a class="nav-link @if(!request()->is('admin/department*')) collapsed @endif" href="#"
                data-toggle="collapse" data-target="#DepartmentMaster"
@@ -150,19 +152,26 @@
                 </div>
             </div>
         </li>
+        @endif
 
         <!-- Nav Item - Dashboard -->
         <li class="nav-item">
-            <a class="nav-link" href="{{'/admin/booking/create'}}">
+            <a class="nav-link" href="{{'/admin/booking'}}">
                 <i class="fas fa-fw fa-hotel"></i>
-                <span>Booking</span></a>
+                <span>Rezerwacje</span></a>
         </li>
 
         <!-- Nav Item - Dashboard -->
         <li class="nav-item">
+            @if(Session::has('adminData'))
             <a class="nav-link" href="{{'/admin/logout'}}">
                 <i class="fas fa-fw fa-sign-out-alt"></i>
                 <span>Wyloguj się</span></a>
+            @else
+                <a class="nav-link" href="{{'/employee/logout'}}">
+                    <i class="fas fa-fw fa-sign-out-alt"></i>
+                    <span>Wyloguj się</span></a>
+                @endif
         </li>
 
 
@@ -216,7 +225,7 @@
 
 
                     <div class="topbar-divider d-none d-sm-block"></div>
-
+                @if(Session::has('adminData'))
                     <!-- Nav Item - User Information -->
                     <li class="nav-item dropdown no-arrow">
                         <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
@@ -224,15 +233,37 @@
                             <img class="img-profile rounded-circle"
                                  src="/img/undraw_profile.svg">
                         </a>
+
                         <!-- Dropdown - User Information -->
                         <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                              aria-labelledby="userDropdown">
+
                             <a class="dropdown-item" href="/admin/logout" data-toggle="modal" data-target="#logoutModal">
                                 <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                                Logout
+                                Wyloguj się
                             </a>
                         </div>
                     </li>
+                            @elseif(Session::has('employeeData'))
+
+                    <!-- Nav Item - User Information -->
+                        <li class="nav-item dropdown no-arrow">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <img class="img-profile rounded-circle"
+                                     src="/img/undraw_profile.svg">
+                            </a>
+
+                            <!-- Dropdown - User Information -->
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                 aria-labelledby="userDropdown">
+                                <a class="dropdown-item" href="/employee/logout" data-toggle="modal" data-target="#logoutModal">
+                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Wyloguj się
+                                </a>
+                            </div>
+                        </li>
+                    @endif
 
                 </ul>
 
@@ -275,7 +306,11 @@
             <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
             <div class="modal-footer">
                 <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                <a class="btn btn-primary" href="login.html">Logout</a>
+                @if(Session::has('employeeData'))
+                <a class="btn btn-primary" href="/employee/logout">Logout</a>
+                @else
+                    <a class="btn btn-primary" href="/admin/logout">Logout</a>
+                    @endif
             </div>
         </div>
     </div>

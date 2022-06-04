@@ -162,4 +162,9 @@ class EmployeeController extends Controller
         }
 
     }
+
+    function logout (){
+        session()->forget('employeeData');
+        return redirect('/employee/login');
+    }
 }

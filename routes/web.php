@@ -99,6 +99,9 @@ Route::get('service/{id}', [HomeController::class, 'servicePage']);
 
 Route::get('employee/login', [EmployeeController::class, 'login']);
 Route::post('employee/login', [EmployeeController::class, 'validate_login']);
+Route::get('employee/logout', [EmployeeController::class, 'logout']);
 
+//Galeria
 
-
+Route::get('galery', [HomeController::class, 'galery']);
+Route::get('services', [HomeController::class, 'services']);
