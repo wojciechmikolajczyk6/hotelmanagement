@@ -10,6 +10,7 @@
             integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
             crossorigin="anonymous"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
 </head>
 <body>
 
@@ -28,7 +29,7 @@
                 <a class="nav-link " aria-current="page" href="/services">Usługi</a>
                 <a class="nav-link" href="/galery">Galeria</a>
             @if(Session::has('customerLogin'))
-{{--                    <a class="nav-link" href="/profile">Profil</a>--}}
+                    <a class="nav-link" href="/profile/{{Session('data')[0]->id}}">Profil</a>
                     <a class="nav-link" href="/logout">Wyloguj się</a>
                     <a class="nav-link btn btn-success" href="/booking">Rezerwacja pokoju</a>
                 @else

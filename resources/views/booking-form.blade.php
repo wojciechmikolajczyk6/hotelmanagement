@@ -9,6 +9,9 @@
                     <p class="text-primary text-danger">{{$error}}</p>
                 @endforeach
             @endif
+                @if(Session::has('failed'))
+                    <p class="text-danger text-center">{{session('failed')}}</p>
+                @endif
             @if(Session::has('success'))
                 <p class="text-primary text-center">{{session('success')}}</p>
             @endif
@@ -30,7 +33,7 @@
                                 <select name="room_id" class="form-control room-list">
                                     <option>--- Prosze wybrac date zameldowania ---</option>
                                 </select>
-                                <p>Cena: <span class="show-room-price">*</span></p>
+                                <p>Cena: <span class="show-room-price">*</span> za dzień</p>
                             </td>
                         </tr>
                         <tr>

@@ -27,37 +27,42 @@
                         <p class="text-primary text-center">{{session('success')}}</p>
                     @endif
                     <div class="table-responsive">
-                        <form method="post" enctype="multipart/form-data" action="/admin/services/{{$data->id}}">
-                            @csrf
-                            @method('put')
-                            <div class="table-responsive">
-                                <form method="post" enctype="multipart/form-data" action="/admin/services">
-                                    @csrf
-                                    <table class="table table-bordered">
-                                        <tr>
-                                            <th>Nazwa serwisu<span>*</span></th>
-                                            <td><input type="text" name="title" class="form-control"/></td>
-                                        </tr>
-                                        <tr>
-                                            <th>Streszczenie opisu <span>*</span></th>
-                                            <td><input type="text" name="desc" class="form-control"/></td>
-                                        </tr>
-                                        <tr>
-                                            <th>Pelen opis <span>*</span></th>
-                                            <td><input type="text" name="full_desc" class="form-control"/></td>
-                                        </tr>
-                                        <tr>
-                                            <th>Zdjecie</th>
-                                            <td><input type="file" name="photo"/></td>
-                                        </tr>
-                                        <tr>
-                                            <td colspan="4">
-                                                <input name='submit' type="submit" class="btn btn-primary"/>
-                                            </td>
-                                        </tr>
-                                    </table>
-                                </form>
-                            </div>
+                            <form method="post" enctype="multipart/form-data" action="/admin/customers/{{$data->id}}">
+                                @csrf
+                                @method('put')
+                                <table class="table table-bordered">
+                                    <tr>
+                                        <th>Imie i nazwisko <span>*</span></th>
+                                        <td><input type="text" value={{$data->full_name}} name="full_name" class="form-control"/></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Email <span>*</span></th>
+                                        <td><input value={{$data->email}} type="email" name="email" class="form-control"/></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Haslo <span>*</span></th>
+                                        <td><input type="password" name="password" class="form-control"/></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Numer telefonu <span>*</span></th>
+                                        <td><input value={{$data->phone}} type="text" name="phone" class="form-control"/></td>
+                                    </tr>
+                                    <th>Zdjecie</th>
+                                    <td><input type="file" name="photo"/>
+                                        <input value="{{$data->photo}}" type="hidden" name="last_photo"/>
+                                        <img src="{{ asset('storage/'.$data->photo)}}" width="120px" hight="120px" alt=""></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Adres</th>
+                                        <td><textarea value={{$data->address}} class="form-control" name="address">{{$data->address}}</textarea></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="4">
+                                            <input name='submit' type="submit" class="btn btn-primary"/>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </form>
                         </form>
                     </div>
                 </div>

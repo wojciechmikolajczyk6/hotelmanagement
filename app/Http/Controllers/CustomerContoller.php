@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Booking;
 use Illuminate\Http\Request;
 use App\Models\Customer;
 use Illuminate\Support\Facades\Auth;
@@ -107,13 +108,28 @@ class CustomerContoller extends Controller
         } else {
             $imgPath=$request->last_photo;
         }
+        if($request->ref == 'frontprofile'){
+            $data=Customer::find($id);
+            $data->full_name=$request->full_name;
+            $data->email=$request->email;
+            if($request->password){
+            $data->password=md5($request->password);
+            }
+            $data->phone=$request->phone;
+            $data->address=$request->address;
+            $data->photo=$imgPath;
+            $data->save();
+            return redirect ('/profile/'.Session('data')[0]->id)->with('success', 'dane klienta zostaly zmienione.');
 
+        }
 
 
         $data=Customer::find($id);
         $data->full_name=$request->full_name;
         $data->email=$request->email;
-        //$data->password=md5($request->password);
+        if($request->password){
+            $data->password=md5($request->password);
+        }
         $data->phone=$request->phone;
         $data->address=$request->address;
         $data->photo=$imgPath;
@@ -143,8 +159,10 @@ class CustomerContoller extends Controller
             'email' => 'required|email',
             'password' => 'required',
         ]);
+
         $email = $request->email;
         $password = md5($request->password);
+
         $user_details = Customer::where(['email'=>$email, 'password'=>$password])->count();
         if ($user_details >0){
             $user_details = Customer::where(['email'=>$email, 'password'=>$password])->get();
@@ -163,5 +181,16 @@ class CustomerContoller extends Controller
         session()->forget(['customerLogin', 'data']);
         return redirect('login');
     }
+
+
+
+
+    function profile($id) {
+        $booking=Booking::all();
+        $user=Customer::find($id);
+        return view('profile', ['customer' => $user, 'bookings'=>$booking]);
+    }
+
+
 
 }

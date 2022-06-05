@@ -8,6 +8,9 @@ use App\Models\Customer;
 use App\Models\Booking;
 use MongoDB\Driver\Session;
 use App\Models\RoomType;
+use Carbon\Carbon;
+use Twilio\Rest\Client;
+
 //require 'vendor/autoload.php';
 class BookingController extends Controller
 {
@@ -51,8 +54,30 @@ class BookingController extends Controller
             'adults' => 'required',
             'roomprice' => 'required'
         ]);
+
 //        dd($request->checkin_date);
 //        dd($request->checkout_date);
+        $todayDate = date('Y-m-d');
+        $DateFormat = Carbon::createFromFormat('Y-m-d', $todayDate);
+
+        $checkindate=Carbon::createFromFormat('Y-m-d', $request->checkin_date);
+        $checkoutdate = Carbon::createFromFormat('Y-m-d', $request->checkout_date);
+        $result = $checkindate->lt($checkoutdate);
+        if($DateFormat->gt($checkindate)){
+            return redirect ('/booking')->with('failed','nieprawidlowa data zameldowania');
+        }
+        if($DateFormat->gt($checkoutdate)){
+            return redirect ('/booking')->with('failed','nieprawidlowa data wymeldowania');
+        }
+        if($checkindate->eq($checkoutdate)){
+            return redirect ('/booking')->with('failed','Blad');
+        }
+        if($result == false){
+            return redirect ('/booking')->with('failed','Nieprawidlowa data. Nie jest mozliwe wymeldowanie sie przed meldunkiem');
+        }
+
+        $totalDays = $checkoutdate->diffInDays($checkindate);
+
 
 
 
@@ -83,7 +108,7 @@ class BookingController extends Controller
                         'product_data' => [
                             'name' => 'room',
                         ],
-                        'unit_amount' => $request->roomprice * 100,
+                        'unit_amount' => $request->roomprice * 100 * $totalDays,
                     ],
                     'quantity' => 1,
                 ]],
@@ -215,6 +240,11 @@ class BookingController extends Controller
             $data->adults = session('adults');
             $data->children = session('children');
             $data->save();
+            $message="Rezerwacja pokoju ". session('room_id'). " potwierdzona. Data zameldowania: ".session('checkin_date').", data wymeldowania: ". session('checkout_date');
+
+
+//            $recipients = '+48519426851';
+//            $this->sendMessage($message, '+48519426851');
             return view('booking.success');
 
         }
@@ -222,4 +252,15 @@ class BookingController extends Controller
     function booking_payment_fail(Request $request){
         return view('booking.failed');
     }
+
+//    private function sendMessage($message, $recipients)
+//    {
+//        $account_sid = getenv("TWILIO_SID");
+//        $auth_token = getenv("TWILIO_AUTH_TOKEN");
+//        $twilio_number = getenv("TWILIO_NUMBER");
+//        $client = new Client($account_sid, $auth_token);
+//        $client->messages->create($recipients,
+//            ['from' => $twilio_number, 'body' => $message] );
+//
+//    }
 }

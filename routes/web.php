@@ -105,3 +105,6 @@ Route::get('employee/logout', [EmployeeController::class, 'logout']);
 
 Route::get('galery', [HomeController::class, 'galery']);
 Route::get('services', [HomeController::class, 'services']);
+
+
+Route::get('profile/{id}', [CustomerContoller::class, 'profile']);
