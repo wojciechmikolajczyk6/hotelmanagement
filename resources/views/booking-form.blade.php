@@ -1,5 +1,16 @@
 @extends('frontlayout')
 @section('content')
+
+    @if(Session('data'))
+        @if(Session('data')[0]->active == 0)
+            <script type="text/javascript">
+
+                window.location.href = '/accountValidation';
+            </script>
+        @endif
+    @endif
+
+
     @if(Session::has('customerLogin'))
     <div class="container my-4">
         <h3 class="m-3">Rezerwacja pokoju</h3>

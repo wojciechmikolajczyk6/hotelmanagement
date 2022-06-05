@@ -42,15 +42,17 @@ class CustomerContoller extends Controller
     {
         $request->validate([
             'full_name'=>'required',
-            'email' => 'required|email',
+            'email' => 'required|email|unique:customers,email',
             'password' =>'required',
             'phone' => 'required'
         ]);
 
+        $random_number = rand();
+
         if($request->hasFile('photo')) {
             $imgPath = $request->file('photo')->store('img');
         } else {
-            $imgPath =null;
+            $imgPath = 'null';
         }
 
         $data=new Customer;
@@ -60,6 +62,8 @@ class CustomerContoller extends Controller
         $data->phone=$request->phone;
         $data->address=$request->address;
         $data->photo = $imgPath;
+        $data->active = 0;
+        $data->activation_code = $random_number;
         $data->save();
 
         if ($request->front == "customer"){
@@ -190,6 +194,34 @@ class CustomerContoller extends Controller
         $user=Customer::find($id);
         return view('profile', ['customer' => $user, 'bookings'=>$booking]);
     }
+
+
+    function accountValidationPage(){
+        return view('accountValidation');
+    }
+    function accountValidation(Request $request){
+        $request->validate([
+            'activation_code' => 'required'
+        ]);
+
+        $activation_code = $request->activation_code;
+//        dd(Session('data')[0]->id);
+//        dd(Session('data')[0]->activation_code);
+
+        if($activation_code != Session('data')[0]->activation_code){
+            return redirect('accountValidation')->with('failed', 'podano zly kod aktywacyjny.');
+        } else {
+            $id=Session('data')[0]->id;
+            DB::table('customers')
+                ->where('id', $id)
+                ->update(['active' => '1']);
+            Session(Session('data')[0]->active = 1);
+            return redirect('/')->with('success', 'Konto zostało aktywowane.');
+        }
+
+
+    }
+
 
 
 

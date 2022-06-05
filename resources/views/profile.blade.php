@@ -1,5 +1,21 @@
 @extends('frontlayout')
 @section('content')
+
+
+    @if(Session('data')[0]->active == '0')
+        <script type="text/javascript">
+
+            window.location.href = '/accountValidation';
+        </script>
+        @else
+
+{{--{{dd(Session('data'))}}--}}
+    @if(!Session('data'))
+        <script type="text/javascript">
+            window.location.href = '/login';
+        </script>
+        @endif
+        @if(Session('data'))
     <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
     <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
     <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
@@ -82,7 +98,7 @@
             </tbody>
             </thead>
         </table>
-
+@endif
 @endsection
-
+@endif
 

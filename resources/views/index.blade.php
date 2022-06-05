@@ -1,5 +1,17 @@
+
+@if(Session('data'))
+@if(Session('data')[0]->active == 0)
+    <script type="text/javascript">
+
+        window.location.href = '/accountValidation';
+    </script>
+    @endif
+    @endif
+
 @extends('frontlayout')
 @section('content')
+
+
 
 
 {{--        service section--}}
@@ -72,5 +84,4 @@
 
 
 @endsection
-
 

@@ -108,3 +108,7 @@ Route::get('services', [HomeController::class, 'services']);
 
 
 Route::get('profile/{id}', [CustomerContoller::class, 'profile']);
+
+Route::get('accountValidation', [CustomerContoller::class, 'accountValidationPage']);
+Route::post('accountValidation', [CustomerContoller::class, 'accountValidation']);
+
