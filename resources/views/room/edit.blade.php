@@ -33,7 +33,7 @@
                                 <th>Typ pokoju</th>
                                 <td>
                                     <select name="room_type_id" class="form-control">
-                                        <option value="0">{{$data->roomtype->title}}</option>
+                                        <option value="{{$data->roomtype->id ?? 0}}">{{$data->roomtype->title ?? '--WYBIERZ RODZAJ POKOJU'}}</option>
                                         @foreach($roomtypes as $roomtype)
                                             <option value="{{$roomtype->id}}">{{$roomtype->title}}</option>
                                         @endforeach

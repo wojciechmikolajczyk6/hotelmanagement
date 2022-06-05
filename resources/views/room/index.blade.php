@@ -40,11 +40,15 @@
                         </tr>
                         </tfoot>
                         <tbody>
+
                         @if($data)
+
                             @foreach ($data as $room)
                         <tr>
                             <td>{{$room->id}}</td>
-                            <td>{{$room->roomtype->id}}</td>
+
+                            <td>{{$room->roomtype->id ?? 'Brak wybramego typu pokoju'}}</td>
+
                             <td>{{$room->title}}</td>
                             <td>
                                 <a href="{{'/admin/room/'.$room->id}}" class="btn btn-info btn-sm"><i class="fa fa-eye"></i></a>
