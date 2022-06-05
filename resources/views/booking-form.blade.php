@@ -33,7 +33,7 @@
                                 <select name="room_id" class="form-control room-list">
                                     <option>--- Prosze wybrac date zameldowania ---</option>
                                 </select>
-                                <p>Cena: <span class="show-room-price">*</span> za dzień</p>
+                                <p>Cena: <span class="show-room-price">*</span> za dobę</p>
                             </td>
                         </tr>
                         <tr>
@@ -58,7 +58,8 @@
         </div>
     </div>
     @else
-    <p>Aby dokonac rezerwacji nalezy zalogowac sie na konto uzytkownika</p>
+        <p>Aby dokonać rezerwacji należy <a href="/login">zalogować</a> się na konto użytkownika</p>
+
     @endif
 
 @endsection

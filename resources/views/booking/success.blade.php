@@ -5,7 +5,7 @@
     <div class="container-fluid">
         <p class="card-body">
             <p><div class="card-text">
-                Płatność zakończyła się powodzeniem.
+                Płatność zatwierdzona w systemie.
             </div></p>
         </div>
     </div>

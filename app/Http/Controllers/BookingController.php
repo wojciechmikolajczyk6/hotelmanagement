@@ -115,6 +115,8 @@ class BookingController extends Controller
                 'mode' => 'payment',
                 'success_url' => 'http://hotel-management11111.herokuapp.com/booking/success?session_id={CHECKOUT_SESSION_ID}',
                 'cancel_url' => 'http://hotel-management11111.herokuapp.com/booking/fail',
+//                'success_url' => 'http://127.0.0.1:8000/booking/success?session_id={CHECKOUT_SESSION_ID}',
+//                'cancel_url' => 'http://127.0.0.1:8000/booking/fail',
             ]);
             return redirect($session->url);
 
@@ -132,26 +134,6 @@ class BookingController extends Controller
 
 
         \Stripe\Stripe::setApiKey('sk_test_51L4krXBeFTh5SNhT6srv4WD9rxn1OBQuFJ5rBcSoC9pFQaAN1EahUiYinYRrM0zv0h9LkKZmzJMahCYYjrKZM3rQ00ASZUevGj');
-
-
-//        $session = \Stripe\Checkout\Session::create([
-//           'payment_method_types' => ['card'],
-//           'line_items' => [[
-//               'price_data' => [
-//                   'currency' => 'pln',
-//                   'product_data' => [
-//                       'name' => 'room',
-//                       ],
-//                   'unit_amount' => 2000,
-//                   ],
-//               'quantity' => 1,
-//               ]],
-//            'mode' => 'payment',
-//            'success_url' => 'http://127.0.0.1:8000/booking/success?session_id={CHECKOUT_SESSION_ID}',
-//            'cancel_url' => 'http://127.0.0.1:8000/booking/fail',
-//        ]);
-//        return redirect($session->url);
-
 
 
     }

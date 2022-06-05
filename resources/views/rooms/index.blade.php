@@ -4,8 +4,6 @@
 <!-- Begin Page Content -->
 <div class="container-fluid">
 
-    <!-- Page Heading -->
-    <h1 class="h3 mb-4 text-gray-800">Blank Page</h1>
     @if(Session::has('success'))
         <p class="text-primary text-center">{{session('success')}}</p>
 @endif
@@ -17,7 +15,7 @@
         <!-- DataTales Example -->
         <div class="card shadow mb-4">
             <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Rodzaje pokoi
+                <h6 class="m-0 font-weight-bold text-primary">Dostępne rodzaje pokojów w bazie danych:
                     <a href="/admin/rooms/create" class="btn btn-success float-right">Dodaj nowy pokoj</a></h6>
             </div>
             <div class="card-body">
@@ -54,7 +52,7 @@
                             <td>
                                 <a href="{{'/admin/rooms/'.$room->id}}" class="btn btn-info btn-sm"><i class="fa fa-eye"></i></a>
                                 <a href="{{'/admin/rooms/'.$room->id.'/edit'}}" class="btn btn-success btn-sm"><i class="fa fa-edit"></i></a>
-                                <a onclick="return confirm('jestes pewny, ze chcesz usunac pokoj z bd?')" href="{{'/admin/rooms/'.$room->id.'/delete'}}" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a>
+                                <a onclick="return confirm('jesteś pewny, że chcesz usunąć pokój z systemu?')" href="{{'/admin/rooms/'.$room->id.'/delete'}}" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a>
                             </td>
                         </tr>
                             @endforeach

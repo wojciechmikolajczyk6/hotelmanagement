@@ -12,8 +12,10 @@
         @if(Session::has('success'))
             <p class="text-success"> {{session('success')}}</p>
         @endif
-        <div class="table-responsive">
-            <table class="table table-bordered" id="dataTable" width="100" cellspacing="0">
+            <div class="card-body">
+
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <thead>
                 <tr>
                     <th>#</th>
@@ -39,9 +41,9 @@
                 <tr>
                 @foreach($data as $booking)
                     <th>{{$booking->id}}</th>
-                    <th>{{$booking->customer->full_name}}</th>
-                    <th>{{$booking->room->title}}</th>
-                    <th>{{$booking->room->roomtype->title}}</th>
+                    <th>{{$booking->customer->full_name ?? "Uzytkownik usunięty"}}</th>
+                    <th>{{$booking->room->title ?? "Pokoj usuniety z systemu"}}</th>
+                    <th>{{$booking->room->roomtype->title ?? "Pokój usunięty z systemu"}}</th>
                     <th>{{$booking->checkin_date}}</th>
                     <th>{{$booking->checkout_date}}</th>
                     <th><a href="/admin/booking/{{$booking->id}}/delete" onclick="return confirm('Jestes pewny ze chcesz usunac rezerwacje?')"><i class="fa fa-trash"</a> </th>
@@ -53,4 +55,23 @@
         </div>
     </div>
 </div>
+</div>
+@endsection
+@section('scripts')
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="/js/sb-admin-2.min.js"></script>
+
+    <!-- Page level plugins -->
+    <script src="/vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="/js/demo/datatables-demo.js"></script>
 @endsection

@@ -74,8 +74,8 @@
 {{--              {{dd($customer->bookings)}}--}}
                 @foreach($customer->bookings as $data)
                     <th>{{$data->id}}</th>
-                    <th>{{$data->room->title}}</th>
-                    <th>{{$data->room->roomtype->title}}</th>
+                    <th>{{$data->room->title ?? "Pokój usunięty z systemu."}}</th>
+                    <th>{{$data->room->roomtype->title ?? "Pokój usunięty z systemu"}}</th>
                     <th>{{$data->checkin_date}}</th>
                     <th>{{$data->checkout_date}}</th></tr>
             @endforeach

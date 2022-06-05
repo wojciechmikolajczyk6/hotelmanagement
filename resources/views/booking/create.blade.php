@@ -4,18 +4,14 @@
     <!-- Begin Page Content -->
     <div class="container-fluid">
 
-        <!-- Page Heading -->
-        <h1 class="h3 mb-4 text-gray-800">Blank Page</h1>
-
-
         <!-- Begin Page Content -->
         <div class="container-fluid">
 
             <!-- DataTales Example -->
             <div class="card shadow mb-4">
                 <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary">Dodaj booking
-                        <a href="/admin/booking/" class="btn btn-success float-right">Wroc na poprzednia strone</a></h6>
+                    <h6 class="m-0 font-weight-bold text-primary">Dodaj nową rezerwację
+                        <a href="/admin/booking/" class="btn btn-success float-right">Wróć na poprzednią stronę</a></h6>
                 </div>
                 <div class="card-body">
                     @if($errors->any())
@@ -57,6 +53,7 @@
                                     <select name="room_id" class="form-control room-list">
                                         <option>--- Prosze wybrac date zameldowania ---</option>
                                     </select>
+                                    <p>Cena: <span class="show-room-price">*</span> za dobę</p>
                                 </td>
                             </tr>
                             <tr>
@@ -69,6 +66,7 @@
                             </tr>
                             <tr>
                                 <td colspan="4">
+                                    <input type="hidden" name="roomprice" class="room-price" value="" >
                                     <input name='submit' type="submit" class="btn btn-primary"/>
                                 </td>
                             </tr>

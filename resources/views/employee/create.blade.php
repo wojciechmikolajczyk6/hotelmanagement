@@ -5,7 +5,6 @@
     <div class="container-fluid">
 
         <!-- Page Heading -->
-        <h1 class="h3 mb-4 text-gray-800">Blank Page</h1>
 
 
         <!-- Begin Page Content -->
@@ -14,8 +13,8 @@
             <!-- DataTales Example -->
             <div class="card shadow mb-4">
                 <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary">Nowy pracownika
-                        <a href="/admin/employee/" class="btn btn-success float-right">Wroc na poprzednia strone</a></h6>
+                    <h6 class="m-0 font-weight-bold text-primary">Dodaj nowego pracownika
+                        <a href="/admin/employee/" class="btn btn-success float-right">Wróć na poprzednią strone</a></h6>
                 </div>
                 <div class="card-body">
                     @if(Session::has('success'))
