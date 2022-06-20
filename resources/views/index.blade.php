@@ -31,27 +31,32 @@
         </div>
     </div>
     @endforeach
-{{--    <div class="row my-4">--}}
-{{--        <div class="col-md-4">--}}
-{{--            <img src="/img/room.jpg" class="img-thumbnail" alt ="...">--}}
-{{--        </div>--}}
-{{--        <div class="col-md-8">--}}
-{{--            <h3>Naglowek uslug</h3>--}}
-{{--            <p>"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et--}}
-{{--                dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip--}}
-{{--                ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu--}}
-{{--                fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia--}}
-{{--                deserunt mollit anim id est laborum."</p>--}}
-{{--            <p>--}}
-{{--                <a href="#" class="btn btn-sm btn-primary">Read more</a>--}}
-{{--            </p>--}}
-{{--        </div>--}}
-{{--    </div>--}}
 
 </div>
 
 {{--        service section ends--}}
 {{-- Gallery section--}}
+<div class="container">
+
+    <form method="get" action="">
+
+        <div class="input-group stylish-input-group">
+            <input type="text" id="txtSearch" name="txtSearch" class="form-control"  placeholder="Search..." >
+            <span class="input-group-addon">
+                            <button type="submit">
+                                <span class="btn btn-sm btn-primary">Szukaj</span>
+                            </button>
+                        </span>
+        </div>
+
+    </form>
+
+
+    <div id="result"></div>
+
+</div>
+
+
 <div class="container my-4">
     <h1 class="text-center border-bottom">Galeria</h1>
     <div class="row my-4">
@@ -85,3 +90,35 @@
 
 @endsection
 
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+
+
+<script type="application/javascript">
+    $(document).ready(function(){
+
+        $('#txtSearch').on('keyup', function(){
+
+            var text = $('#txtSearch').val();
+
+            $.ajax({
+
+                type:"GET",
+                url: '/search',
+                data: {text: $('#txtSearch').val()},
+                success: function(data) {
+
+                    console.log(data);
+
+                }
+
+
+
+            });
+
+
+        });
+
+    });
+</script>

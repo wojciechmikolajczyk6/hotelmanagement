@@ -106,4 +106,10 @@ class RoomController extends Controller
 
         return redirect ('/admin/room/')->with('success', 'pokoj zostal usuniety.');
     }
+
+
+    public function searchRoom(){
+        $rooms=Room::all();
+        return view('searchRoom', ['data' => $rooms]);
+    }
 }

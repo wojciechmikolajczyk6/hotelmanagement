@@ -112,3 +112,7 @@ Route::get('profile/{id}', [CustomerContoller::class, 'profile']);
 Route::get('accountValidation', [CustomerContoller::class, 'accountValidationPage']);
 Route::post('accountValidation', [CustomerContoller::class, 'accountValidation']);
 
+
+Route::get('searchRoom', [RoomController::class, 'searchRoom']);
+
+Route::get('profile/{id}/delete', [BookingController::class, 'destroy_front']);

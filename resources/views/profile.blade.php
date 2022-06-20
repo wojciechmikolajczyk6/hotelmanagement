@@ -74,6 +74,10 @@
                 <th>Typ pokoju</th>
                 <th>Data zameldowania</th>
                 <th>Data wymeldowania</th>
+                <th>Typ płatności</th>
+                <th>Całkowita kwota do zapłaty</th>
+                <th>Status płatności</th>
+                <th>Anulacja rezerwacji</th>
             </tr>
             <tfoot>
             <tr>
@@ -82,6 +86,10 @@
                 <th>Typ pokoju</th>
                 <th>Data zameldowania</th>
                 <th>Data wymeldowania</th>
+                <th>Typ płatności</th>
+                <th>Całkowita kwota do zapłaty</th>
+                <th>Status płatności</th>
+                <th>Anulacja rezerwacji</th>
             </tr>
             </tfoot>
             <tbody>
@@ -93,7 +101,26 @@
                     <th>{{$data->room->title ?? "Pokój usunięty z systemu."}}</th>
                     <th>{{$data->room->roomtype->title ?? "Pokój usunięty z systemu"}}</th>
                     <th>{{$data->checkin_date}}</th>
-                    <th>{{$data->checkout_date}}</th></tr>
+
+                    <th>{{$data->checkout_date}}</th>
+                    @if($data->payment_method == 'cash')
+                        <th>Płatność w recepcji w dniu meldunku</th>
+                    @else
+                        <th>Przedpłata</th>
+                    @endif
+                    <th>{{$data->total_cash}}</th>
+                    @if($data->payment_status == 'OK')
+                    <th>Zapłacono za rezerację</th>
+                    @else
+                        <th>Brak płatności w systemie.</th>
+                    @endif
+                    @if($data->payment_status == 'OK')
+                        <th>Anulacja rezerwacji jest możliwa tylko po skontaktowaniu się telefonicznie z recepcją.</th>
+                    @else
+                        <th><a href="/profile/{{$data->id}}/delete" onclick="return confirm('Jestes pewny ze chcesz zrezygnować z rezerwacji?')"><i class="fa fa-trash"></i> Rezygnuję </a> </th>
+                    @endif
+
+            </tr>
             @endforeach
             </tbody>
             </thead>

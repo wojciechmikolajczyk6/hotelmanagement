@@ -36,7 +36,7 @@
                         </tr>
                         <tr>
                             <th>Data wymeldowania <span>*</span></th>
-                            <td><input type="date" name="checkout_date" class="form-control"/></td>
+                            <td><input type="date" name="checkout_date" class="form-control checkoutdate"/></td>
                         </tr>
                         <tr>
                             <th>Dostępne pokoje: <span>*</span></th>
@@ -55,6 +55,22 @@
                             <th>Liczba dzieci <span>*</span></th>
                             <td><input type="number" name="children" class="form-control"/></td>
                         </tr>
+                        <th>Typ płatności: <span>*</span></th>
+                        <td>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" value="online" name="payment_method" id="flexRadioDefault1">
+                            <label class="form-check-label" for="flexRadioDefault1">
+                                Płatność online
+                            </label>
+                        </div>
+
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio"  value="cash" name="payment_method" id="flexRadioDefault2" checked>
+                            <label class="form-check-label" for="flexRadioDefault2">
+                                Płatość przy zameldowaniu.
+                            </label>
+                        </div>
+                        </td>
                         <tr>
                             <td colspan="4">
                                 <input type="hidden" name="customer_id" value="{{(session('data')[0]->id)}}">
@@ -77,31 +93,41 @@
 @section('scripts')
     <script type="text/javascript">
         $(document).ready(function(){
-            $(".checkindate").on('blur', function(){
-                var _checkindate=$(this).val();
-                console.log(_checkindate);
-                $.ajax({
-                    url: "/admin/booking/available-rooms/"+_checkindate,
-                    dataType: 'json',
-                    beforeSend:function(){
-                        $(".room-list").html('<option>--- Prosze wybrac date zameldowania ---</option>');
 
-                    },
-                    success:function (res){
-                        var _html='';
-                        $.each(res.data, function(index,row){
-                            _html+='<option data-price="'+row.roomtype.price+'" value="'+row.room.id+'">'+row.room.title+' - '+row.roomtype.title+'</option>';
-                        });
-                        $(".room-list").html(_html);
+            $(".checkindate").on('blur', function() {
+                var _checkindate = $(this).val();
+                $(".checkoutdate").on('blur', function () {
+
+                    var _checkoutdate = $(this).val();
+                    console.log(_checkindate, _checkoutdate);
+                    $.ajax({
+                        url: "/admin/booking/available-rooms/" + _checkindate+'|'+_checkoutdate,
+                        dataType: 'json',
+                        beforeSend: function () {
+                            $(".room-list").html('<option>--- Prosze wybrac date zameldowania ---</option>');
+
+                        },
+                        success: function (res) {
+                            var _html = '';
+                            $.each(res.data, function (index, row) {
+                                _html += '<option data-price="' + row.roomtype.price + '" value="' + row.room.id + '">' + row.room.title + ' - ' + row.roomtype.title + '</option>';
+                            });
+                            console.log(_html.length);
+                            if(_html.length ='0'){
+                                $(".room-list").html('<option>--- Brak wolnych pokoi. ---</option>');
+                            } else {
+                                $(".room-list").html(_html);
+                            }
 
 
-                        var _price = $(".room-list").find('option:selected').attr('data-price');
-                        $(".room-price").val(_price);
-                        $(".show-room-price").text(_price);
+                            var _price = $(".room-list").find('option:selected').attr('data-price');
+                            $(".room-price").val(_price);
+                            $(".show-room-price").text(_price);
 
-                    }
+                        }
+                    });
+
                 });
-
             });
             $(document).on("change", ".room-list", function(){
                 var _price = $(this).find('option:selected').attr('data-price');

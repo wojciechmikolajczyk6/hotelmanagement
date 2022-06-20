@@ -52,11 +52,9 @@ class BookingController extends Controller
             'checkin_date' => 'required',
             'checkout_date' => 'required',
             'adults' => 'required',
-            'roomprice' => 'required'
+            'roomprice' => 'required',
         ]);
 
-//        dd($request->checkin_date);
-//        dd($request->checkout_date);
         $todayDate = date('Y-m-d');
         $DateFormat = Carbon::createFromFormat('Y-m-d', $todayDate);
 
@@ -78,7 +76,9 @@ class BookingController extends Controller
 
         $totalDays = $checkoutdate->diffInDays($checkindate);
 
+        if($request->payment_method == 'cash'){
 
+        }
 
 
 
@@ -90,9 +90,27 @@ class BookingController extends Controller
             'checkout_date' => $request->checkout_date,
             'adults' => $request->adults,
             'children' => $request->children,
-            'roomprice' => $request->roomprice
+            'roomprice' => $request->roomprice,
+            'payment_method' => $request->payment_method
         ];
         session($bookingSession);
+        // Cash payment in hotel.
+        if($request->payment_method == 'cash'){
+            $data=new Booking;
+            $data->customer_id = session('data')[0]->id;
+            $data->room_id = session('room_id');
+            $data->checkin_date = session('checkin_date');
+            $data->checkout_date = session('checkout_date');
+            $data->adults = session('adults');
+            $data->children = session('children');
+            $data->payment_method = session('payment_method');
+            $data->total_cash = $totalDays * session('roomprice');
+
+            $data->save();
+            return view('booking.success');
+
+        }
+
 
             $request->session([
 
@@ -128,8 +146,9 @@ class BookingController extends Controller
             $data->checkout_date = $request->checkout_date;
             $data->adults = $request->adults;
             $data->children = $request->children;
+            $data->total_cash = $totalDays * session('roomprice');
             $data->save();
-            return redirect ('admin/booking/create')->with('success','booking zostal utworzony');
+            return redirect ('admin/booking/create')->with('success','rezerwacja została utworzona');
         }
 
 
@@ -187,8 +206,12 @@ class BookingController extends Controller
     //Check available rooms
 
     public function available_rooms(Request $request, $checkindate){
+        $split_date =explode('|', $checkindate, 2);
+        $checkin = $split_date[0];
+        $checkout = $split_date[1];
+
         $arooms=DB::SELECT("SELECT * FROM rooms WHERE id NOT IN (SELECT room_id FROM bookings WHERE
-                '$checkindate' BETWEEN checkin_date and checkout_date )");
+                '$checkin' BETWEEN '$checkin' and '$checkout' and '$checkout' BETWEEN '$checkin' and '$checkout' )");
 
         $data=[];
         foreach($arooms as $room){
@@ -196,6 +219,9 @@ class BookingController extends Controller
             $data[]=['room'=>$room, 'roomtype'=>$roomTypes];
 
         }
+
+        //return response()->json($checkin);
+        //return response()->json($checkout);
 
 
         return response()->json(['data'=>$data]);
@@ -234,6 +260,14 @@ class BookingController extends Controller
     function booking_payment_fail(Request $request){
         return view('booking.failed');
     }
+    //Annulation of reservation by client in the profile pannel.
+    public function destroy_front($id){
+        DB::table('bookings')->where('id', $id)->delete();
+
+        return redirect ('/profile/'.Session('data')[0]->id)->with('success', 'rezerwacja usunieta.');
+
+    }
+
 
 //    private function sendMessage($message, $recipients)
 //    {
@@ -245,4 +279,5 @@ class BookingController extends Controller
 //            ['from' => $twilio_number, 'body' => $message] );
 //
 //    }
+
 }
