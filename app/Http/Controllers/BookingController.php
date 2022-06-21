@@ -62,16 +62,32 @@ class BookingController extends Controller
         $checkoutdate = Carbon::createFromFormat('Y-m-d', $request->checkout_date);
         $result = $checkindate->lt($checkoutdate);
         if($DateFormat->gt($checkindate)){
-            return redirect ('/booking')->with('failed','nieprawidlowa data zameldowania');
+            if($request->ref == 'frontbooking'){
+            return redirect ('/booking')->with('failed','nieprawidlowa data zameldowania');}
+            else {
+                return redirect ('/admin/booking/create')->with('failed','nieprawidlowa data zameldowania');
+            }
         }
         if($DateFormat->gt($checkoutdate)){
-            return redirect ('/booking')->with('failed','nieprawidlowa data wymeldowania');
+            if($request->ref == 'frontbooking'){
+            return redirect ('/booking')->with('failed','nieprawidlowa data wymeldowania');}
+            else {
+                return redirect ('/admin/booking/create')->with('failed','nieprawidlowa data wymeldowania');
+            }
         }
         if($checkindate->eq($checkoutdate)){
-            return redirect ('/booking')->with('failed','Blad');
+            if($request->ref == 'frontbooking'){
+            return redirect ('/booking')->with('failed','Data zameldowania nie moze byc taka sama jak wymeldowanoa');}
+            else {
+                return redirect ('/admin/booking/create')->with('failed','Data zameldowania nie moze byc taka sama jak wymeldowanoa');
+            }
         }
         if($result == false){
-            return redirect ('/booking')->with('failed','Nieprawidlowa data. Nie jest mozliwe wymeldowanie sie przed meldunkiem');
+            if($request->ref == 'frontbooking'){
+            return redirect ('/booking')->with('failed','Nieprawidlowa data. Nie jest mozliwe wymeldowanie sie przed meldunkiem');}
+            else{
+                return redirect ('/admin/booking/create')->with('failed','Nieprawidlowa data. Nie jest mozliwe wymeldowanie sie przed meldunkiem');}
+
         }
 
         $totalDays = $checkoutdate->diffInDays($checkindate);
@@ -210,9 +226,10 @@ class BookingController extends Controller
         $checkin = $split_date[0];
         $checkout = $split_date[1];
 
+        //$arooms=DB::SELECT("SELECT * FROM rooms WHERE id NOT IN (SELECT room_id FROM bookings WHERE
+        //        ('$checkout' BETWEEN '$checkin' and '$checkout') and ('$checkin' BETWEEN '$checkin' and '$checkout' ))");
         $arooms=DB::SELECT("SELECT * FROM rooms WHERE id NOT IN (SELECT room_id FROM bookings WHERE
-                '$checkin' BETWEEN '$checkin' and '$checkout' and '$checkout' BETWEEN '$checkin' and '$checkout' )");
-
+                '$checkin' BETWEEN checkin_date and checkout_date and '$checkout' BETWEEN checkin_date and checkout_date)");
         $data=[];
         foreach($arooms as $room){
             $roomTypes=RoomType::find($room->room_type_id);

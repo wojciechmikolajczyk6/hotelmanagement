@@ -19,112 +19,164 @@
                             <p class="text-primary text-danger">{{$error}}</p>
                         @endforeach
                     @endif
-                    @if(Session::has('success'))
-                        <p class="text-primary text-center">{{session('success')}}</p>
-                    @endif
-                    <div class="table-responsive">
-                        <form method="post" enctype="multipart/form-data" action="/admin/booking">
-                        @csrf
-                        <table class="table table-bordered">
-                            <tr>
-                                <th>Wybierz klienta <span>*</span></th>
-                                <td>
-                                <select name="customer_id" class="form-control">
-                                    <option>--- WYBIERZ KLIENTA ----</option>
-                                    @foreach($data as $customer)
-                                        <option value="{{$customer->id}}">{{$customer->full_name}}</option>
+                        @if(Session::has('failed'))
+                            <p class="text-danger text-center">{{session('failed')}}</p>
+    @endif
+            @if(Session::has('success'))
+                <p class="text-primary text-center">{{session('success')}}</p>
+            @endif
+            <div class="table-responsive">
+                <form method="post" enctype="multipart/form-data" action="/admin/booking">
+                @csrf
+                <table class="table table-bordered">
+                    <tr>
+                        <th>Wybierz klienta <span>*</span></th>
+                        <td>
+                        <select name="customer_id" class="form-control">
+                            <option>--- WYBIERZ KLIENTA ----</option>
+                            @foreach($data as $customer)
+                                <option value="{{$customer->id}}">{{$customer->full_name}}</option>
 
 
-                                    @endforeach
-                                </select>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>Data zameldowania <span>*</span></th>
-                                <td><input type="date" name="checkin_date" class="form-control checkindate"/></td>
-                            </tr>
-                            <tr>
-                                <th>Data wymeldowania <span>*</span></th>
-                                <td><input type="date" name="checkout_date" class="form-control"/></td>
-                            </tr>
-                            <tr>
-                                <th>Dostępne pokoje: <span>*</span></th>
-                                <td>
-                                    <select name="room_id" class="form-control room-list">
-                                        <option>--- Prosze wybrac date zameldowania ---</option>
-                                    </select>
-                                    <p>Cena: <span class="show-room-price">*</span> za dobę</p>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>Liczba osób dorosłych <span>*</span></th>
-                                <td><input type="number" name="adults" class="form-control"/></td>
-                            </tr>
-                            <tr>
-                                <th>Liczba dzieci <span>*</span></th>
-                                <td><input type="number" name="children" class="form-control"/></td>
-                            </tr>
-                            <tr>
-                                <td colspan="4">
-                                    <input type="hidden" name="roomprice" class="room-price" value="" >
-                                    <input name='submit' type="submit" class="btn btn-primary"/>
-                                </td>
-                            </tr>
-                        </table>
-                        </form>
-                    </div>
-                </div>
+                            @endforeach
+                        </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Data zameldowania <span>*</span></th>
+                        <td><input type="date" name="checkin_date" class="form-control checkindate"/></td>
+                    </tr>
+                    <tr>
+                        <th>Data wymeldowania <span>*</span></th>
+                        <td><input type="date" name="checkout_date" class="form-control checkoutdate"/></td>
+                    </tr>
+                    <tr>
+                        <th>Dostępne pokoje: <span>*</span></th>
+                        <td>
+                            <select name="room_id" class="form-control room-list">
+                                <option>--- Prosze wybrac date zameldowania ---</option>
+                            </select>
+                            <p>Cena: <span class="show-room-price">*</span> za dobę</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Liczba osób dorosłych <span>*</span></th>
+                        <td><input type="number" name="adults" class="form-control"/></td>
+                    </tr>
+                    <tr>
+                        <th>Liczba dzieci <span>*</span></th>
+                        <td><input type="number" name="children" class="form-control"/></td>
+                    </tr>
+                        <td colspan="4">
+                            <input type="hidden" name="roomprice" class="room-price" value="" >
+                            <input name='submit' type="submit" class="btn btn-primary"/>
+                        </td>
+                    </tr>
+                </table>
+                </form>
             </div>
-
         </div>
-        <!-- /.container-fluid -->
-
     </div>
-    <!-- End of Main Content -->
+
+</div>
+<!-- /.container-fluid -->
+
+</div>
+<!-- End of Main Content -->
 
 
 
 
 
-    </div>
-    <!-- /.container-fluid -->
+</div>
+<!-- /.container-fluid -->
 @endsection
 
+{{--@section('scripts')--}}
+{{--    <script type="text/javascript">--}}
+{{--        $(document).ready(function(){--}}
+{{--            $(".checkindate").on('blur', function(){--}}
+{{--                var _checkindate=$(this).val();--}}
+{{--                console.log(_checkindate);--}}
+{{--                $.ajax({--}}
+{{--                    url: "/admin/booking/available-rooms/"+_checkindate,--}}
+{{--                    dataType: 'json',--}}
+{{--                    beforeSend:function(){--}}
+{{--                        $(".room-list").html('<option>--- Prosze wybrac date zameldowania ---</option>');--}}
+
+{{--                    },--}}
+{{--                    success:function (res){--}}
+{{--                        var _html='';--}}
+{{--                        $.each(res.data, function(index,row){--}}
+{{--                            _html+='<option data-price="'+row.roomtype.price+'" value="'+row.room.id+'">'+row.room.title+' - '+row.roomtype.title+'</option>';--}}
+{{--                        });--}}
+{{--                        $(".room-list").html(_html);--}}
+
+
+{{--                        var _price = $(".room-list").find('option:selected').attr('data-price');--}}
+{{--                        $(".room-price").val(_price);--}}
+{{--                        $(".show-room-price").text(_price);--}}
+
+{{--                    }--}}
+{{--                });--}}
+
+{{--            });--}}
+{{--            $(document).on("change", ".room-list", function(){--}}
+{{--                var _price = $(this).find('option:selected').attr('data-price');--}}
+{{--                $(".room-price").val(_price);--}}
+{{--                $(".show-room-price").text(_price);--}}
+{{--            });--}}
+
+{{--        });--}}
+{{--    </script>--}}
+{{--@endsection--}}
+
 @section('scripts')
-    <script type="text/javascript">
-        $(document).ready(function(){
-            $(".checkindate").on('blur', function(){
-                var _checkindate=$(this).val();
-                console.log(_checkindate);
-                $.ajax({
-                    url: "/admin/booking/available-rooms/"+_checkindate,
-                    dataType: 'json',
-                    beforeSend:function(){
-                        $(".room-list").html('<option>--- Prosze wybrac date zameldowania ---</option>');
+<script type="text/javascript">
+$(document).ready(function(){
 
-                    },
-                    success:function (res){
-                        var _html='';
-                        $.each(res.data, function(index,row){
-                            _html+='<option data-price="'+row.roomtype.price+'" value="'+row.room.id+'">'+row.room.title+' - '+row.roomtype.title+'</option>';
-                        });
+    $(".checkindate").on('blur', function() {
+        var _checkindate = $(this).val();
+        $(".checkoutdate").on('blur', function () {
+
+            var _checkoutdate = $(this).val();
+            console.log(_checkindate, _checkoutdate);
+            $.ajax({
+                url: "/admin/booking/available-rooms/" + _checkindate+'|'+_checkoutdate,
+                dataType: 'json',
+                beforeSend: function () {
+                    $(".room-list").html('<option>--- Prosze wybrac date zameldowania ---</option>');
+
+                },
+                success: function (res) {
+                    console.log(res.data);
+                    var _html = '';
+                    $.each(res.data, function (index, row) {
+                        _html += '<option data-price="' + row.roomtype.price + '" value="' + row.room.id + '">' + row.room.title + ' - ' + row.roomtype.title + '</option>';
+                    });
+                    console.log(_html.length);
+                    if(_html.length == 0){
+                        $(".room-list").html('<option>--- Brak wolnych pokoi. ---</option>');
+                    } else {
                         $(".room-list").html(_html);
-
-
-                        var _price = $(".room-list").find('option:selected').attr('data-price');
-                        $(".room-price").val(_price);
-                        $(".show-room-price").text(_price);
-
                     }
-                });
 
-            });
-            $(document).on("change", ".room-list", function(){
-                var _price = $(this).find('option:selected').attr('data-price');
-                $(".room-price").val(_price);
-                $(".show-room-price").text(_price);
+
+                    var _price = $(".room-list").find('option:selected').attr('data-price');
+                    $(".room-price").val(_price);
+                    $(".show-room-price").text(_price);
+
+                }
             });
 
         });
-    </script>
+    });
+    $(document).on("change", ".room-list", function(){
+        var _price = $(this).find('option:selected').attr('data-price');
+        $(".room-price").val(_price);
+        $(".show-room-price").text(_price);
+    });
+
+});
+</script>
 @endsection

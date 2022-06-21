@@ -108,12 +108,13 @@
 
                         },
                         success: function (res) {
+                            console.log(res.data);
                             var _html = '';
                             $.each(res.data, function (index, row) {
                                 _html += '<option data-price="' + row.roomtype.price + '" value="' + row.room.id + '">' + row.room.title + ' - ' + row.roomtype.title + '</option>';
                             });
                             console.log(_html.length);
-                            if(_html.length ='0'){
+                            if(_html.length == 0){
                                 $(".room-list").html('<option>--- Brak wolnych pokoi. ---</option>');
                             } else {
                                 $(".room-list").html(_html);
