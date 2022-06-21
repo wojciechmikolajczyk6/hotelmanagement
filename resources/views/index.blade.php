@@ -36,25 +36,7 @@
 
 {{--        service section ends--}}
 {{-- Gallery section--}}
-<div class="container">
 
-    <form method="get" action="">
-
-        <div class="input-group stylish-input-group">
-            <input type="text" id="txtSearch" name="txtSearch" class="form-control"  placeholder="Search..." >
-            <span class="input-group-addon">
-                            <button type="submit">
-                                <span class="btn btn-sm btn-primary">Szukaj</span>
-                            </button>
-                        </span>
-        </div>
-
-    </form>
-
-
-    <div id="result"></div>
-
-</div>
 
 
 <div class="container my-4">
@@ -90,35 +72,3 @@
 
 @endsection
 
-
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-
-
-<script type="application/javascript">
-    $(document).ready(function(){
-
-        $('#txtSearch').on('keyup', function(){
-
-            var text = $('#txtSearch').val();
-
-            $.ajax({
-
-                type:"GET",
-                url: '/search',
-                data: {text: $('#txtSearch').val()},
-                success: function(data) {
-
-                    console.log(data);
-
-                }
-
-
-
-            });
-
-
-        });
-
-    });
-</script>
